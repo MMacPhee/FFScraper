@@ -1,0 +1,17 @@
+from scraper import Scraper
+
+
+qb_list = Scraper("qb_list", [])
+rb_list = Scraper("rb_list", [])
+wr_list = Scraper("wr_list", [])
+
+qb_list.get_list("qb")
+rb_list.get_list("rb")
+wr_list.get_list("wr")
+
+print(len(qb_list.content))
+print(len(rb_list.content))
+print(len(wr_list.content))
+print(qb_list.name)
+print(rb_list.name)
+print(wr_list.name)
