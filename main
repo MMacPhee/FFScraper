@@ -1,5 +1,6 @@
 from scraper import Scraper
 from player import Player
+from stats import Stats
 
 
 qb_list = Scraper("qb_list", [])
@@ -10,5 +11,5 @@ wr_list = Scraper("wr_list", [])
 #rb_list.get_list("rb")
 #wr_list.get_list("wr")
 
-tbrady = Player("Tom Brady", "ne", "qb", [])
-tbrady.create_pfr_url()
+eelliot = Player("Ezekiel Elliott", "dal", "rb", Stats.create_list())
+eelliot.get_stats()
