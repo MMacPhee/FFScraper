@@ -23,16 +23,31 @@ class Player:
         soup = BeautifulSoup(r.text, "html.parser")
         results = soup.find("table", {"id": "stats"})
         table = results.find("tbody")
-        entries = table.findAll("tr")
+        entries = table.findAll("td")
 
-        i = 0
-        for rows in entries:
-            self.stats[i]["week"] = rows.find("td", {"data-stat": "opp"})
-            self.stats[i]["opponent"] = rows.find("td", {"data-stat": "opp"})
-            self.stats[i]["rushingyards"] = rows.find("td", {"id": "rush_yds"})
-            self.stats[i]["receivingyards"] = rows.find("td", {"id": "rec_yds"})
-            i += 1
-            print(self.stats[i]["week"], "a",
-                  self.stats[i]["opponent"], "b",
-                  self.stats[i]["rushingyards"], "c",
-                  self.stats[i]["receivingyards"], "d")
+        i = 1
+        while i <= 17:
+            try:
+                j = 0
+                for rows in entries:
+                    print(i, j)
+                    if j == 5:
+                        self.stats[i]["opponent"] = rows.text
+                    if j == 8:
+                        self.stats[i]["rushingyards"] = rows.text
+                    if j == 13:
+                        self.stats[i]["receivingyards"] = rows.text
+                    if j == 19:
+                        self.stats[i]["week"] = i
+                        i += 1
+                        j = 0
+                        continue
+                    j += 1
+            except IndexError:
+                break
+
+        for i in range(17):
+            print(self.stats[i]["week"],
+                  self.stats[i]["opponent"],
+                  self.stats[i]["rushingyards"],
+                  self.stats[i]["receivingyards"])
