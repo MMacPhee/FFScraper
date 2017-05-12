@@ -25,25 +25,26 @@ class Player:
         table = results.find("tbody")
         entries = table.findAll("td")
 
-        for i in range(17):
-            j = 0
-            for rows in entries:
-                print(i, j)
-                if j == 0:
-                    i = Player.check_week(rows.text)
-                if j == 5:
-                    self.stats[i]["opponent"] = rows.text
-                if j == 8:
-                    self.stats[i]["rushingyards"] = rows.text
-                if j == 13:
-                    self.stats[i]["receivingyards"] = rows.text
-                if j == 19:
-                    self.stats[i]["week"] = i
-                if j == 19:
-                    j = 0
-                else:
-                    j += 1
-            i += 1
+        j = 0
+        i = 1
+        for rows in entries:
+            print(i, j)
+            if j == 0:
+                i = Player.check_week(rows.text)
+            if j == 5:
+                self.stats[i - 1]["opponent"] = rows.text
+            if j == 8:
+                self.stats[i - 1]["rushingyards"] = rows.text
+            if j == 13:
+                self.stats[i - 1]["receivingyards"] = rows.text
+            if j == 19:
+                self.stats[i - 1]["week"] = i
+                j = 0
+                i += 1
+                if i > 17:
+                    break
+                continue
+            j += 1
 
         for i in range(17):
             print(self.stats[i]["week"],

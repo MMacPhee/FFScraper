@@ -5,7 +5,7 @@ class Stats:
     def create_list():
         created_list = []
         for i in range(17):
-            created_list.append({"week": None,
+            created_list.append({"week": i + 1,
                                  "ranking": None,
                                  "opponent": None,
                                  "rushingyards": None,
