@@ -11,5 +11,6 @@ wr_list = Scraper("wr_list", [])
 #rb_list.get_list("rb")
 #wr_list.get_list("wr")
 
+
 eelliot = Player("Ezekiel Elliott", "dal", "rb", Stats.create_list())
 eelliot.get_stats()
