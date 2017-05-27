@@ -1,6 +1,7 @@
 from scraper import Scraper
 from player import Player
 from stats import Stats
+from database import Database
 
 
 qb_list = Scraper("qb_list", [])
@@ -10,6 +11,9 @@ wr_list = Scraper("wr_list", [])
 #qb_list.get_list("qb")
 rb_list.get_list("rb")
 #wr_list.get_list("wr")
+
+Database.close_db(rb_list.content)
+
 '''
 i = 0
 new_list = []
