@@ -4,10 +4,11 @@ import requests
 
 
 class Player:
-    def __init__(self, name, team, position, stats):
+    def __init__(self, name, team, position, rank, stats):
         self.name = name
         self.team = team
         self.position = position
+        self.rank = rank
         self.stats = stats
 
     def create_player_url(self):
@@ -20,17 +21,24 @@ class Player:
     def get_stats(self):
         url = self.create_player_url()
         r = requests.get(url)
-        soup = BeautifulSoup(r.text, "html.parser")
-        results = soup.find("table", {"id": "stats"})
-        table = results.find("tbody")
-        entries = table.findAll("td")
+        try:
+            soup = BeautifulSoup(r.text, "html.parser")
+            results = soup.find("table", {"id": "stats"})
+            table = results.find("tbody")
+            entries = table.findAll("td")
+        except AttributeError:
+            print("Wrong URL")
+            return -1
 
         j = 0
         i = 1
         for rows in entries:
             print(i, j)
             if j == 0:
-                i = Stats.check_week(rows.text)
+                if Stats.check_week(rows.text) == -1:
+                    i += 1
+                else:
+                    i = Stats.check_week(rows.text)
             if j == 5:
                 self.stats[i - 1]["opponent"] = rows.text
             if j == 8:
@@ -51,3 +59,6 @@ class Player:
                   self.stats[i]["opponent"],
                   self.stats[i]["rushingyards"],
                   self.stats[i]["receivingyards"])
+
+    def dump_player(self):
+        print(self.name, self.team, self.position, self.rank)

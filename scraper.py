@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from player import Player
 import requests
 
 
@@ -24,24 +25,28 @@ class Scraper:
         entries = table.findAll("tr")
 
         for item in entries:
-            item_text = {"name": " ".join(item.find("td").text.split(" ")[:2]), "ranking": ""}
+            item_text = {"name": " ".join(item.find("td").text.split(" ")[:2]),
+                         "team": "".join(item.find("td").text.split(" ")[2:3]),
+                         "ranking": ""}
             ranks = item.findAll("td")
 
             for rank in ranks:
                 try:
                     rank_num = int(rank.text)
                     for player in self.content:
-                        if player["ranking"] == rank_num:
+                        if player.rank == rank_num:
                             rank_num += 1
                     item_text["ranking"] = rank_num
                     break
                 except ValueError:
                     continue
-            if item_text:
-                self.content.append(item_text)
 
-        for player in sorted(self.content, key=lambda content: content["ranking"]):
-            print(player["name"], player["ranking"])
+            new_player = Player(item_text["name"], item_text["team"], position, item_text["ranking"], [])
+            if item_text:
+                self.content.append(new_player)
+
+        for player in sorted(self.content, key=lambda content: content.rank):
+            print(player.name, player.team, player.rank)
 
         print("\n")
 
