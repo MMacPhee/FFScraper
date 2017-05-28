@@ -1,5 +1,6 @@
 import simplejson as json
 import os
+from player import Player
 
 
 class Database:
@@ -9,7 +10,7 @@ class Database:
         if os.path.isfile("./db.json") and os.stat("./db.json").st_size != 0:
             old_file = open("./db.json", "r+")
             data = json.loads(old_file.read())
-            return data
+            return Database.unmake_jsonable(data)
         else:
             return -1
 
@@ -22,12 +23,19 @@ class Database:
     @staticmethod
     def make_jsonable(data):
         new_data = []
-        new_entry = {}
         for entries in data:
-            new_entry["name"] = entries.name
-            new_entry["team"] = entries.team
-            new_entry["position"] = entries.position
-            new_entry["rank"] = entries.rank
-            new_entry["stats"] = entries.stats
+            new_entry = {"name": entries.name,
+                         "team": entries.team,
+                         "position": entries.position,
+                         "rank": entries.rank,
+                         "stats": entries.stats}
             new_data.append(new_entry)
+        return new_data
+
+    @staticmethod
+    def unmake_jsonable(data):
+        new_data = []
+        for item in data:
+            player = Player(item["name"], item["team"], item["position"], item["rank"], item["stats"])
+            new_data.append(player)
         return new_data

@@ -9,8 +9,12 @@ rb_list = Scraper("rb_list", [])
 wr_list = Scraper("wr_list", [])
 
 #qb_list.get_list("qb")
-rb_list.get_list("rb")
+#rb_list.get_list("rb")
 #wr_list.get_list("wr")
+
+rb_list.content = Database.open_db()
+for item in rb_list.content:
+    item.dump_player()
 
 Database.close_db(rb_list.content)
 
