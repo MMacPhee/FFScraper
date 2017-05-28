@@ -17,4 +17,17 @@ class Database:
     def close_db(data):
         old_file = open("./db.json", "w+")
         old_file.seek(0)
-        old_file.write(json.dumps(data))
+        old_file.write(json.dumps(Database.make_jsonable(data)))
+
+    @staticmethod
+    def make_jsonable(data):
+        new_data = []
+        new_entry = {}
+        for entries in data:
+            new_entry["name"] = entries.name
+            new_entry["team"] = entries.team
+            new_entry["position"] = entries.position
+            new_entry["rank"] = entries.rank
+            new_entry["stats"] = entries.stats
+            new_data.append(new_entry)
+        return new_data
