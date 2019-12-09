@@ -3,6 +3,8 @@ from player import Player
 from stats import Stats
 from database import Database
 
+import tkinter as tk
+
 
 qb_list = Scraper("qb_list", [])
 rb_list = Scraper("rb_list", [])
@@ -35,3 +37,25 @@ for rb in rb_list.content:
 eelliot = Player("Ezekiel Elliott", "dal", "rb", Stats.create_list())
 eelliot.get_stats()
 '''
+
+# I'm going to start working on a gui to run on setup down here
+# Create instance fo window
+win = tk.Tk()
+
+# Add a title to the GUI
+win.title("FFScraper")
+
+frame = tk.Frame(win)
+frame.pack()
+
+tk.Label(frame, text="This is a message").pack()
+tk.Button(frame, text="This is a button").pack()
+win.resizable(False, False)
+
+label2 = tk.Label(frame, text="label 2")
+label2.pack()
+label2.config(text = "new message")
+label2.pack()
+
+# Start the GUI and create main loop
+win.mainloop()
